@@ -42,19 +42,6 @@ class UsuariosController extends BaseController
 
     }
 
-
-    public function verUsuario($id = false)
-    {
-        if ( $id != false )
-        {
-            $usuario = Usuario::find($id);
-            if ( !is_null($usuario) )
-            {
-                return View::make('usuarios.ver', compact('usuario') );
-            }
-        }
-        return 'nanana';
-    }
     public function modificarUsuario($id)
     {
         $usuario = Usuario::find($id);
@@ -78,6 +65,15 @@ class UsuariosController extends BaseController
         $usuario->perfil->fill($perfil_data);
         $usuario->perfil->save();
 
+        return Redirect::to('usuarios');
+    }
+
+    public function delete($id)
+    {
+        $usuario = Usuario::find($id);
+        $usuario->perfil->delete();
+        $usuario->delete();
+        Session::flash('message', 'El usuario ' . $usuario->nombres . ' fue eliminado');
         return Redirect::to('usuarios');
     }
 }

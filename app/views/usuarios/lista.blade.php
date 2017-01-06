@@ -7,9 +7,12 @@
         <p class="lead">Se pueden Ver los usuarios en esta seccion<p>
     </div>
 
+    @if(Session::has('message'))
+        <p class="alert alert-success">{{Session::get('message')}}</p>
+    @endif
+
     <div class="row marketing">
         @foreach($usuarios as $usuario)
-            @foreach($perfiles as $perfil)
                 <div class="panel panel-primary">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-bordered">
@@ -30,9 +33,9 @@
                                 <th><img src="{{asset('/img/' . $usuario->imagen)}}" width="150" height="150" style="border-radius: 50%;"></th>
                                 <th>{{ $usuario->nombres }}</th>
                                 <th>{{ $usuario->apellidos }}</th>
-                                <th>{{ $perfil->rfc }}</th>
-                                <th>{{ $perfil->email }}</th>
-                                <th>{{ $perfil->telefono }}</th>
+                                <th>{{ $usuario->perfil->rfc }}</th>
+                                <th>{{ $usuario->perfil->email }}</th>
+                                <th>{{ $usuario->perfil->telefono }}</th>
                                 @if ($usuario->tipo == 0)
                                     <th>Administrador</th>
                                 @else
@@ -42,16 +45,19 @@
                                     <a href="{{ url('/usuarios/modificar/'. $usuario->id) }}" class="btn btn-warning">
                                         editar
                                     </a>
-                                    <a href="{{ url('/usuarios/modificar/'. $usuario->id) }}" class="btn btn-danger">
+                                    <br>
+                                    <br>
+                                    {{Form::open(['url' => ['usuarios/delete', $usuario->id], 'method' => 'DELETE'])}}
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que desea eliminar usuario?')">
                                         eliminar
-                                    </a>
+                                    </button>
+                                    {{Form::close()}}
                                 </th>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-            @endforeach
         @endforeach
     </div>
 @stop

@@ -51,5 +51,11 @@ Route::post(
         'uses' => 'UsuariosController@actualizarUsuario'
     ]
 );
+Route::delete(
+    'usuarios/delete/{id}',
+    [
+        'uses' => 'UsuariosController@delete'
+    ]
+);
 
 Route::controller("perfiles", "PerfilesController");
